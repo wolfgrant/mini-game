@@ -1,10 +1,12 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types';
 
-function PrimaryButton({ children }) {
-    function pressHandler() {
-        console.log('Pressed!')
-    }
+function PrimaryButton({ children, onPress }) {
+
+    //se puede colocar el onpress acá en el metodo o simplemente llamarlo directamente en el pressable
+    /* function pressHandler() {
+        onPress();
+    } */
     return (
         //Cuando queramos que un metodo se ejecute al renderizarse por primera vez, se debe usar () despues del nombre del método, Ej: pressHandler()
         <View style={styles.buttonOuterContainer}>
@@ -13,7 +15,10 @@ function PrimaryButton({ children }) {
                 pressed
                     ? [styles.container, styles.pressed]
                     : styles.container
-            } onPress={pressHandler} android_ripple={{ color: '#640233' }}>
+            }
+                onPress={onPress} 
+                android_ripple={{ color: '#640233' }}
+            >
                 <Text style={styles.buttonText}>{children}</Text>
             </Pressable>
         </View>
@@ -21,7 +26,8 @@ function PrimaryButton({ children }) {
 }
 
 PrimaryButton.propTypes = {
-    children: PropTypes.string.isRequired,
+    children: PropTypes.string.isRequired, //Text del botón
+    onPress: PropTypes.func, //Método del botón
 };
 
 export default PrimaryButton;

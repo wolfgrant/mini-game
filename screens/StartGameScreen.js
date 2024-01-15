@@ -1,7 +1,35 @@
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View, Alert } from 'react-native'
 import PrimaryButton from '../components/PrimaryButton';
+import { useState } from 'react'
+import PropTypes from 'prop-types';
 
-function StartGameScreen() {
+function StartGameScreen({onPickNumber}) {
+    const [enteredNumber, setEnteredNumber] = useState('');
+
+    function numberInputHandler(enteredText) {
+        setEnteredNumber(enteredText)
+    }
+
+    function resetInputHandler () {
+        setEnteredNumber('')
+    }
+
+    function confirmInputHandler() {
+        const chosenNumber = parseInt(enteredNumber);
+
+        if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+            //El alert tiene 3 partes, el primero es el titulo, el segundo el mensaje y el ultimo es un botón
+            Alert.alert(
+                'Número inválido', 
+                'El número debe ser entre 1 y 99',
+                [{text: 'Vale', style: 'destructive', onPress: resetInputHandler}]
+            );
+            return;
+        }
+
+        onPickNumber(chosenNumber);
+    }
+
     return (
         <View style={styles.inputContianer}>
             <TextInput
@@ -11,18 +39,24 @@ function StartGameScreen() {
                 //Esto es para que cuando se escribe con letras, no haga que automaticamente sea mayuscula la primera letra, no es necesario cuando se usa solamente números
                 autoCapitalize='none'
                 autoCorrect={false}
+                onChangeText={numberInputHandler}
+                value={enteredNumber}
             />
             <View style={styles.buttonsContainer}>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton onPress={resetInputHandler}>Reiniciar</PrimaryButton>
                 </View>
-                <View  style={styles.buttonContainer}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={confirmInputHandler}>Confirmar</PrimaryButton>
                 </View>
             </View>
         </View>
     )
 }
+
+StartGameScreen.propTypes = {
+    onPickNumber: PropTypes.func, //Método del botón
+};
 
 export default StartGameScreen;
 

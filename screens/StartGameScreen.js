@@ -1,9 +1,11 @@
-import { StyleSheet, TextInput, View, Alert, Text } from 'react-native'
+import { StyleSheet, TextInput, View, Alert } from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton';
 import { useState } from 'react'
 import PropTypes from 'prop-types';
 import Colors from '../contants/colors';
 import Title from '../components/ui/Title';
+import Card from '../components/ui/Card'
+import InstructionText from '../components/ui/InstructionText';
 
 function StartGameScreen({ onPickNumber }) {
     const [enteredNumber, setEnteredNumber] = useState('');
@@ -35,8 +37,8 @@ function StartGameScreen({ onPickNumber }) {
     return (
         <View style={styles.rootContainer}>
             <Title>Adivina mi número</Title>
-            <View style={styles.inputContianer}>
-                <Text style={styles.instructionText}>ingresa un número</Text>
+            <Card>
+                <InstructionText>Ingresa un número</InstructionText>
                 <TextInput
                     style={styles.numberInput}
                     maxLength={2}
@@ -55,7 +57,7 @@ function StartGameScreen({ onPickNumber }) {
                         <PrimaryButton onPress={confirmInputHandler}>Confirmar</PrimaryButton>
                     </View>
                 </View>
-            </View>
+            </Card>
         </View>
     )
 }
@@ -71,26 +73,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 100,
         alignItems: 'center'
-    },
-    inputContianer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 36,
-        marginHorizontal: 24,
-        padding: 16,
-        backgroundColor: Colors.primary800,
-        borderRadius: 8,
-        //Sombras para android
-        elevation: 8,
-        //Sombras en iOS
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 6,
-        shadowOpacity: 0.25,
-    },
-    instructionText: {
-        color: Colors.accent500,
-        fontSize: 24,
     },
     numberInput: {
         height: 50,

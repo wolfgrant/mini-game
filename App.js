@@ -1,17 +1,29 @@
 import { useState } from 'react'
 import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'
+import { LinearGradient } from 'expo-linear-gradient';
+import { useFonts } from 'expo-font'
 
 import Colors from './contants/colors'
 
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen'
 import GameOverScreen from './screens/GameOverScreen';
+import AppLoading from 'expo-app-loading'
 
 export default function App() {
 
   const [userNumber, setUserNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
+  const [guessRounds, setGuessRounds] = useState(0);
+
+  const [fonstLoaded] = useFonts({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+  });
+
+  if (!fonstLoaded) {
+    return <AppLoading/>;
+  }
 
   function pickedNumberHandler(pickNumber) {
     setUserNumber(pickNumber)
@@ -22,6 +34,11 @@ export default function App() {
     setGameIsOver(true)
   }
 
+  function startNewGameHandler () {
+    setUserNumber(null);
+    setGuessRounds(0)
+  }
+
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
 
   if (userNumber) {
@@ -29,7 +46,7 @@ export default function App() {
   }
 
   if(gameIsOver && userNumber) {
-    screen = <GameOverScreen />
+    screen = <GameOverScreen userNumber={userNumber} roundsNumber={guessRounds} onStartNewGame={startNewGameHandler}/>
   }
 
   return (

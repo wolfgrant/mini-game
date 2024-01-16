@@ -7,6 +7,7 @@ import NumberContainer from '../components/game/NumberContainer'
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Card from '../components/ui/Card';
 import InstructionText from '../components/ui/InstructionText';
+import GuessLogItem from '../components/game/GuessLogItem';
 
 //Se puede crear un componente funcional de dos maneras, 
 //Forma 1
@@ -49,7 +50,7 @@ function GameScreen({ userNumber, onGameOver }) {
 
     useEffect(() => {
         if (currentGuess === userNumber) {
-            onGameOver();
+            onGameOver(guessRoundsListLength);
         }
     }, [currentGuess, userNumber, onGameOver])
 
@@ -75,10 +76,12 @@ function GameScreen({ userNumber, onGameOver }) {
         const newRndNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
         setCurrentGuess(newRndNumber);
         setGuessRounds(prevGuessRounds => [
-            ...prevGuessRounds, newRndNumber
+            newRndNumber, ...prevGuessRounds
         ]);
 
     }
+
+    const guessRoundsListLength = guessRounds.length;
 
     return (
         <View style={styles.screen}>
@@ -103,13 +106,15 @@ function GameScreen({ userNumber, onGameOver }) {
                     </View>
                 </View>
             </Card>
-            <View>
-                <FlatList data={guessRounds} renderItem={(itemData) => {
-                    return (
-                        <Text>{itemData.item}</Text>
-                    )
-                }} keyExtractor={(item) => item} />
-                {/* {guessRounds.map(guessRound => <Text key={guessRound}>{guessRound}</Text>)} */}
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={guessRounds}
+                    renderItem={(itemData) =>  <GuessLogItem
+                            roundNumber={guessRoundsListLength - itemData.index}
+                            guess={itemData.item}
+                        />
+                    }
+                    keyExtractor={(item) => item} />
             </View>
         </View>
     )
@@ -135,5 +140,9 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1,
+    },
+    listContainer: {
+        flex: 1,
+        paddingTop: 16
     },
 })

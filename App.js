@@ -30,8 +30,9 @@ export default function App() {
     setGameIsOver(false)
   }
 
-  function gameOverHandler () {
+  function gameOverHandler (numberOfRounds) {
     setGameIsOver(true)
+    setGuessRounds(numberOfRounds)
   }
 
   function startNewGameHandler () {
@@ -50,7 +51,7 @@ export default function App() {
   }
 
   return (
-    <LinearGradient colors={Colors.linearGradientMainBackground} style={styles.rootScreen}>
+    <LinearGradient colors={['#4e0329', '#ddb52f']} style={styles.rootScreen}>
       <ImageBackground
         source={require('./assets/images/background.png')}
         resizeMode='cover'

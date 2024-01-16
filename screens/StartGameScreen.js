@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View, Alert, useWindowDimensions } from 'react-native'
+import { StyleSheet, TextInput, View, Alert, useWindowDimensions, KeyboardAvoidingView, ScrollView } from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton';
 import { useState } from 'react'
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import InstructionText from '../components/ui/InstructionText';
 function StartGameScreen({ onPickNumber }) {
     const [enteredNumber, setEnteredNumber] = useState('');
 
-    const {width, height} = useWindowDimensions();
+    const { width, height } = useWindowDimensions();
 
     function numberInputHandler(enteredText) {
         setEnteredNumber(enteredText)
@@ -39,7 +39,9 @@ function StartGameScreen({ onPickNumber }) {
     const marginTopDistance = height < 380 ? 30 : 100;
 
     return (
-        <View style={[styles.rootContainer, {marginTop: marginTopDistance}]}>
+        <ScrollView style={styles.screen}>
+            <KeyboardAvoidingView style={styles.screen} behavior='position'>
+        <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
             <Title>Adivina mi número</Title>
             <Card>
                 <InstructionText>Ingresa un número</InstructionText>
@@ -63,6 +65,9 @@ function StartGameScreen({ onPickNumber }) {
                 </View>
             </Card>
         </View>
+    </KeyboardAvoidingView>
+        </ScrollView>
+        
     )
 }
 
@@ -73,6 +78,9 @@ StartGameScreen.propTypes = {
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+    },
     rootContainer: {
         flex: 1,
         alignItems: 'center'

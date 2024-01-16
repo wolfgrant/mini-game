@@ -27,7 +27,7 @@ function PrimaryButton({ children, onPress }) {
 }
 
 PrimaryButton.propTypes = {
-    children: PropTypes.string.isRequired, //Text del botón
+    children: PropTypes.any.isRequired, //Text del botón
     onPress: PropTypes.func, //Método del botón
 };
 

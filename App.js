@@ -9,6 +9,7 @@ import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen'
 import GameOverScreen from './screens/GameOverScreen';
 import AppLoading from 'expo-app-loading'
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
 
@@ -22,7 +23,7 @@ export default function App() {
   });
 
   if (!fonstLoaded) {
-    return <AppLoading/>;
+    return <AppLoading />;
   }
 
   function pickedNumberHandler(pickNumber) {
@@ -30,12 +31,12 @@ export default function App() {
     setGameIsOver(false)
   }
 
-  function gameOverHandler (numberOfRounds) {
+  function gameOverHandler(numberOfRounds) {
     setGameIsOver(true)
     setGuessRounds(numberOfRounds)
   }
 
-  function startNewGameHandler () {
+  function startNewGameHandler() {
     setUserNumber(null);
     setGuessRounds(0)
   }
@@ -43,26 +44,29 @@ export default function App() {
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
 
   if (userNumber) {
-    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler}/>;
+    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />;
   }
 
-  if(gameIsOver && userNumber) {
-    screen = <GameOverScreen userNumber={userNumber} roundsNumber={guessRounds} onStartNewGame={startNewGameHandler}/>
+  if (gameIsOver && userNumber) {
+    screen = <GameOverScreen userNumber={userNumber} roundsNumber={guessRounds} onStartNewGame={startNewGameHandler} />
   }
 
   return (
-    <LinearGradient colors={['#4e0329', '#ddb52f']} style={styles.rootScreen}>
-      <ImageBackground
-        source={require('./assets/images/background.png')}
-        resizeMode='cover'
-        style={styles.rootScreen}
-        imageStyle={styles.backgroundImage}
-      >
-        <SafeAreaView style={styles.rootScreen}>
-          {screen}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+    <>
+      <StatusBar style={'light'}/>
+      <LinearGradient colors={['#4e0329', '#ddb52f']} style={styles.rootScreen}>
+        <ImageBackground
+          source={require('./assets/images/background.png')}
+          resizeMode='cover'
+          style={styles.rootScreen}
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.rootScreen}>
+            {screen}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 

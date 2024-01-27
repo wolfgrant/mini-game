@@ -7,7 +7,31 @@ import Title from '../components/ui/Title';
 import Card from '../components/ui/Card'
 import InstructionText from '../components/ui/InstructionText';
 
+//Solo como aprendizaje, esto es un customHook
+//Se coge una función y se encapsula, para que pueda ser usada en otro lado
+/* function useCounter(initialValue) {
+    const [count, setCount] = useState(initialValue);
+
+    const increment = () => {
+        setCount(count + 1);
+    };
+
+    const decrement = () => {
+        setCount(count - 1);
+    };
+
+    return {
+        count,
+        increment,
+        decrement
+    };
+} */
 function StartGameScreen({ onPickNumber }) {
+
+    //Y se llama el custom hook de esta forma
+    //Teniendo en cuenta que el 0 en userCounter es el parametro que recibe la función y lo demás es lo que se retorna
+    /* const { count, increment, decrement } = useCounter(0); */
+
     const [enteredNumber, setEnteredNumber] = useState('');
 
     const { width, height } = useWindowDimensions();
@@ -41,33 +65,33 @@ function StartGameScreen({ onPickNumber }) {
     return (
         <ScrollView style={styles.screen}>
             <KeyboardAvoidingView style={styles.screen} behavior='position'>
-        <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
-            <Title>Adivina mi número</Title>
-            <Card>
-                <InstructionText>Ingresa un número</InstructionText>
-                <TextInput
-                    style={styles.numberInput}
-                    maxLength={2}
-                    keyboardType='number-pad'
-                    //Esto es para que cuando se escribe con letras, no haga que automaticamente sea mayuscula la primera letra, no es necesario cuando se usa solamente números
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    onChangeText={numberInputHandler}
-                    value={enteredNumber}
-                />
-                <View style={styles.buttonsContainer}>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={resetInputHandler}>Reiniciar</PrimaryButton>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={confirmInputHandler}>Confirmar</PrimaryButton>
-                    </View>
+                <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
+                    <Title>Adivina mi número</Title>
+                    <Card>
+                        <InstructionText>Ingresa un número</InstructionText>
+                        <TextInput
+                            style={styles.numberInput}
+                            maxLength={2}
+                            keyboardType='number-pad'
+                            //Esto es para que cuando se escribe con letras, no haga que automaticamente sea mayuscula la primera letra, no es necesario cuando se usa solamente números
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            onChangeText={numberInputHandler}
+                            value={enteredNumber}
+                        />
+                        <View style={styles.buttonsContainer}>
+                            <View style={styles.buttonContainer}>
+                                <PrimaryButton onPress={resetInputHandler}>Reiniciar</PrimaryButton>
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <PrimaryButton onPress={confirmInputHandler}>Confirmar</PrimaryButton>
+                            </View>
+                        </View>
+                    </Card>
                 </View>
-            </Card>
-        </View>
-    </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         </ScrollView>
-        
+
     )
 }
 
